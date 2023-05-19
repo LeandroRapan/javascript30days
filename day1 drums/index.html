@@ -59,17 +59,27 @@
     <audio data-key="76" src="sounds/tink.wav"></audio>
   
   <script>
-    window.addEventListener('keydown', (e) =>{
+     const playSound = (e) =>{
       
-       const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-       const key =document.querySelector(`.key[data-key="${e.keyCode}"]`);
-       if(!audio) return;
-       audio.currenTime =0;
-       audio.play()
-       key.classList.add('playing');
-    })
+      const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+      const key =document.querySelector(`.key[data-key="${e.keyCode}"]`);
+      if(!audio) return; // return corta si no es un audio
+      audio.currenTime =0;
+      audio.play()
+      key.classList.add('playing');//agrega la clase playing a la nota para que tome las propiedades css correspondientes a la reproduccion
+   }
+
+    window.addEventListener('keydown', playSound )
+    function removeTransition(e){
+      if(e.propertyName !== 'transform') return; //el return corta si no es transform
+      //cuando termina la transicion
+      this.classList.remove('playing')//remueve la clase playing por lo que las notas vuelven a su apariencia original
+    }
+       //qyerySelectorAll devuelve un array con todo los class="key"
+       const keys = document.querySelectorAll('.key')
+       //hacemos un forEach por que addEventListener no puede escuchar un array
+    keys.forEach(key => key.addEventListener('transitionend', removeTransition))
     </script>
-    const keys = doucment.querySelector.all(.keys)
-    keys.forEach(key => key.addEventListener('transitioned', removeTransition))
+ 
 </body>
 </html>
